@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team236.robot.commands.AutoDriveStraight;
 import org.usfirst.frc.team236.robot.subsystems.Drive;
 
 /**
@@ -34,6 +36,7 @@ public class Robot extends TimedRobot {
 	
 	public static OI oi; 
 	
+	Command autonomousCommand;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -55,6 +58,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		drive.resetEncoders();
 
 	}
 
@@ -76,6 +80,10 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		drive.resetEncoders();
+		
+		autonomousCommand = new AutoDriveStraight();
+		autonomousCommand.start();
 		//m_autonomousCommand = m_chooser.getSelected();
 
 		/*
@@ -97,10 +105,14 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		
+		SmartDashboard.putNumber("left Encoder value: ", drive.leftFrontMaster.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Right Encoder value: ", drive.rightFrontMaster.getSelectedSensorPosition(0));
 	}
 
 	@Override
 	public void teleopInit() {
+		drive.resetEncoders();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -116,6 +128,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		SmartDashboard.putNumber("left Encoder value: ", drive.leftFrontMaster.getSelectedSensorPosition(0));
+		SmartDashboard.putNumber("Right Encoder value: ", drive.rightFrontMaster.getSelectedSensorPosition(0));
 	}
 
 	/**

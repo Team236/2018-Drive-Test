@@ -1,15 +1,11 @@
 package org.usfirst.frc.team236.robot.subsystems;
 
-import java.util.ResourceBundle.Control;
-
 import org.usfirst.frc.team236.robot.RobotMap;
 import org.usfirst.frc.team236.robot.commands.DriveWithJoysticks;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -18,8 +14,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Drive extends Subsystem {
 
 	
-	TalonSRX leftFrontMaster, leftRearSlave;
-	TalonSRX rightFrontMaster, rightRearSlave;
+	public TalonSRX leftFrontMaster, leftRearSlave;
+	public TalonSRX rightFrontMaster, rightRearSlave;
 	
 	public Drive() {
 
@@ -30,6 +26,10 @@ public class Drive extends Subsystem {
 		
 		leftRearSlave.set(ControlMode.Follower, leftFrontMaster.getDeviceID());
 		rightRearSlave.set(ControlMode.Follower,rightFrontMaster.getDeviceID());
+		
+    //Set "true" if needed to make the encoder reading positive when TalonSRX is blinking green	
+		leftFrontMaster.setSensorPhase(true);
+		rightFrontMaster.setSensorPhase(true);		
 	}
 	
 	public void setLeftSpeed(double speed) {
@@ -38,9 +38,18 @@ public class Drive extends Subsystem {
 	public void setRightSpeed(double speed) {
 	rightFrontMaster.set(ControlMode.PercentOutput, -speed);
 	}
+	public void setLeftDistance(double distance) {
+		leftFrontMaster.set(ControlMode.Position, distance);
+	}
+	public void setRightDistance(double distance) {
+		rightFrontMaster.set(ControlMode.Position,-distance);
+	}
 	
-	
-	
+	public void resetEncoders() {
+		leftFrontMaster.setSelectedSensorPosition(0,0,0);
+		rightFrontMaster.setSelectedSensorPosition(0,0,0);
+	}
+	///public void setPID , Insert this method in hard code after getting it right in roborio-236-frc.local
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.

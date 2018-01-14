@@ -17,15 +17,28 @@ public class RobotMap {
 	
 	public static class DriveMap {
 		public static final int ID_LEFT_FRONT = 1;
-		public static final int ID_LEFT_REAR = 3;
 		public static final int ID_RIGHT_FRONT = 2;
+		public static final int ID_LEFT_REAR = 3;
 		public static final int ID_RIGHT_REAR = 4;
+		
+		
+		public static final double DIAMETER = 3.92;
+		public static final double CIRCUMFERENCE = DIAMETER * Math.PI;
+		public static final double PULSE_PER_ROTATION = 512;
+		public static final double DISTANCE_PER_PULSE = CIRCUMFERENCE / PULSE_PER_ROTATION;
+		
 	}
 	
 	public static class JoystickMap {
 		public static final int LEFT_PORT = 0;
 		public static final int RIGHT_PORT = 1;
 	}
+	
+	public static class AutoMap{
+		public static final double STRAIGHT_DISTANCE = 24;
+		
+	}
+	
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 	// public static int leftMotor = 1;
