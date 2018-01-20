@@ -7,7 +7,11 @@
 
 package org.usfirst.frc.team236.robot;
 
+import org.usfirst.frc.team236.robot.commands.SetSolFwd;
+import org.usfirst.frc.team236.robot.commands.SetSolRev;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -18,9 +22,20 @@ public class OI {
 	public Joystick leftStick;
 	public Joystick rightStick;
 	
+	public JoystickButton middleLeft;
+	public JoystickButton middleRight;
+	
 	public OI() {
 		leftStick = new Joystick(RobotMap.JoystickMap.LEFT_PORT);
 		rightStick = new Joystick(RobotMap.JoystickMap.RIGHT_PORT);
+		middleLeft = new JoystickButton(leftStick, 2);
+		middleRight = new JoystickButton(rightStick, 2);
+		middleLeft.whenPressed(new SetSolRev());
+		middleRight.whenPressed(new SetSolFwd());
+		
+		
+		
+		
 	}
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a

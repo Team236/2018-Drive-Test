@@ -34,6 +34,11 @@ public class RobotMap {
 		public static final int RIGHT_PORT = 1;
 	}
 	
+     public static class SetSolMap {
+    	 public static final int SOL_FWD = 6;
+         public static final int SOL_REV = 7;    			 
+    	 
+     }
 	public static class AutoMap{
 		public static final double STRAIGHT_DISTANCE = 24;
 		

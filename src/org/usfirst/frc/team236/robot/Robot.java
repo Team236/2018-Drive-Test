@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team236.robot.commands.AutoDriveStraight;
+import org.usfirst.frc.team236.robot.commands.AutoMotnMagic;
 import org.usfirst.frc.team236.robot.subsystems.Drive;
+import org.usfirst.frc.team236.robot.subsystems.SolenoidTest;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,10 +35,13 @@ public class Robot extends TimedRobot {
    
 	
 	public static Drive drive = new Drive();
+	public static SolenoidTest solenoidTest = new SolenoidTest();
 	
 	public static OI oi; 
 	
 	Command autonomousCommand;
+	//SendableChooser<Command> chooser;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -48,7 +53,11 @@ public class Robot extends TimedRobot {
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		//SmartDashboard.putData("Auto mode", m_chooser);
 	
-		oi = new OI();  	
+		oi = new OI();  
+		
+		//SendableChooser chooser =  new SendableChooser();
+		//chooser.addDefault("DriveStraight PID Auto",new AutoDriveStraight());
+		//chooser.addObject("DriveStraight Motn Magic Auto", new AutoMotnMagic());
 	}
 
 	/**
@@ -59,6 +68,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		drive.resetEncoders();
+		//SmartDashboard.putData("Auto mode: ", chooser);
+	
 
 	}
 
@@ -83,6 +94,8 @@ public class Robot extends TimedRobot {
 		drive.resetEncoders();
 		
 		autonomousCommand = new AutoDriveStraight();
+		//autonomousCommand = new AutoMotnMagic();
+		//autonomousCommand = chooser.getSelected();
 		autonomousCommand.start();
 		//m_autonomousCommand = m_chooser.getSelected();
 
@@ -106,13 +119,20 @@ public class Robot extends TimedRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		
-		SmartDashboard.putNumber("left Encoder value: ", drive.leftFrontMaster.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("Right Encoder value: ", drive.rightFrontMaster.getSelectedSensorPosition(0));
+	       System.out.println("gyroangle" + drive.navx.getAngle());
+	        System.out.println("left Encoder value: " + drive.leftFrontMaster.getSelectedSensorPosition(0)*RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	        System.out.println("Right Encoder value: " + drive.rightFrontMaster.getSelectedSensorPosition(0)*RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	        System.out.println("Left speed: " + drive.leftFrontMaster.getSelectedSensorVelocity(0));
+	        System.out.println("Right speed: " + drive.rightFrontMaster.getSelectedSensorVelocity(0));
+		
+	    //SmartDashboard.putNumber("left Encoder value: ", drive.leftFrontMaster.getSelectedSensorPosition(0));
+		//SmartDashboard.putNumber("Right Encoder value: ", drive.rightFrontMaster.getSelectedSensorPosition(0));
 	}
 
 	@Override
 	public void teleopInit() {
 		drive.resetEncoders();
+		drive.navx.reset();
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -129,8 +149,14 @@ public class Robot extends TimedRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		
-		SmartDashboard.putNumber("left Encoder value: ", drive.leftFrontMaster.getSelectedSensorPosition(0));
-		SmartDashboard.putNumber("Right Encoder value: ", drive.rightFrontMaster.getSelectedSensorPosition(0));
+        System.out.println("gyroangle" + drive.navx.getAngle());
+        
+        System.out.println("left Encoder value: " + drive.leftFrontMaster.getSelectedSensorPosition(0)*RobotMap.DriveMap.DISTANCE_PER_PULSE);
+        System.out.println("Right Encoder value: " + drive.rightFrontMaster.getSelectedSensorPosition(0)*RobotMap.DriveMap.DISTANCE_PER_PULSE);
+        System.out.println("Left speed: " + drive.leftFrontMaster.getSelectedSensorVelocity(0));
+        System.out.println("Right speed: " + drive.rightFrontMaster.getSelectedSensorVelocity(0));
+		//SmartDashboard.putNumber("left Encoder value: ", drive.leftFrontMaster.getSelectedSensorPosition(0));
+		//SmartDashboard.putNumber("Right Encoder value: ", drive.rightFrontMaster.getSelectedSensorPosition(0));
 	}
 
 	/**
