@@ -7,16 +7,16 @@
 
 package org.usfirst.frc.team236.robot;
 
+import org.usfirst.frc.team236.robot.commands.AutoDriveStraight;
+import org.usfirst.frc.team236.robot.commands.AutoMotnMagic;
+import org.usfirst.frc.team236.robot.subsystems.Drive;
+import org.usfirst.frc.team236.robot.subsystems.SolenoidTest;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import org.usfirst.frc.team236.robot.commands.AutoDriveStraight;
-import org.usfirst.frc.team236.robot.commands.AutoMotnMagic;
-import org.usfirst.frc.team236.robot.subsystems.Drive;
-import org.usfirst.frc.team236.robot.subsystems.SolenoidTest;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,143 +26,155 @@ import org.usfirst.frc.team236.robot.subsystems.SolenoidTest;
  * project.
  */
 public class Robot extends TimedRobot {
-	//public static final ExampleSubsystem kExampleSubsystem
-	//= new ExampleSubsystem();
-	//public static OI m_oi;
+    // public static final ExampleSubsystem kExampleSubsystem
+    // = new ExampleSubsystem();
+    public static OI oi;
 
-	//Command m_autonomousCommand;
-	//SendableChooser<Command> m_chooser = new SendableChooser<>();
-   
-	
-	public static Drive drive = new Drive();
-	public static SolenoidTest solenoidTest = new SolenoidTest();
-	
-	public static OI oi; 
-	
-	Command autonomousCommand;
-	//SendableChooser<Command> chooser;
-	
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+    Command autonomousCommand;
+    SendableChooser<Command> chooser = new SendableChooser<>();
+
+    public static Drive drive = new Drive();
+    public static SolenoidTest solenoidTest = new SolenoidTest();
+
+    /**
+     * This function is run when the robot is first started up and should be
+     * used for any initialization code.
+     */
+    @Override
+    public void robotInit() {
+	oi = new OI();
+	chooser.addDefault("Default Auto", new AutoMotnMagic());
+	chooser.addObject("Auto Selection", new AutoDriveStraight());
+	// chooser.addObject("My Auto", new MyAutoCommand());
+	SmartDashboard.putData("Auto mode", chooser);
+    }
+
+    /**
+     * This function is called once each time the robot enters Disabled mode.
+     * You can use it to reset any subsystem information you want to clear when
+     * the robot is disabled.
+     */
+    @Override
+    public void disabledInit() {
+	drive.resetEncoders();
+	// SmartDashboard.putData("Auto mode: ", chooser);
+
+    }
+
+    @Override
+    public void disabledPeriodic() {
+	Scheduler.getInstance().run();
+    }
+
+    /**
+     * This autonomous (along with the chooser code above) shows how to select
+     * between different autonomous modes using the dashboard. The sendable
+     * chooser code works with the Java SmartDashboard. If you prefer the
+     * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+     * getString code to get the auto name from the text box below the Gyro
+     *
+     * <p>
+     * You can add additional auto modes by adding additional commands to the
+     * chooser code above (like the commented example) or additional comparisons
+     * to the switch structure below with additional strings & commands.
+     */
+    @Override
+    public void autonomousInit() {
+	drive.resetEncoders();
+
+	// autonomousCommand = new AutoDriveStraight();
+	// autonomousCommand = new AutoMotnMagic();
+	autonomousCommand = chooser.getSelected();
+	autonomousCommand.start();
+	// m_autonomousCommand = m_chooser.getSelected();
+
+	/*
+	 * String autoSelected = SmartDashboard.getString("Auto Selector",
+	 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+	 * = new MyAutoCommand(); break; case "Default Auto": default:
+	 * autonomousCommand = new ExampleCommand(); break; }
 	 */
-	@Override
-	public void robotInit() {
-		//m_oi = new OI();
-		//m_chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		//SmartDashboard.putData("Auto mode", m_chooser);
-	
-		oi = new OI();  
-		
-		//SendableChooser chooser =  new SendableChooser();
-		//chooser.addDefault("DriveStraight PID Auto",new AutoDriveStraight());
-		//chooser.addObject("DriveStraight Motn Magic Auto", new AutoMotnMagic());
-	}
 
-	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-	 */
-	@Override
-	public void disabledInit() {
-		drive.resetEncoders();
-		//SmartDashboard.putData("Auto mode: ", chooser);
-	
+	// schedule the autonomous command (example)
+	// if (m_autonomousCommand != null) {
+	// m_autonomousCommand.start();
+	// }
+    }
 
-	}
+    /**
+     * This function is called periodically during autonomous.
+     */
+    @Override
+    public void autonomousPeriodic() {
+	Scheduler.getInstance().run();
 
-	@Override
-	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
-	}
+	// System.out.println("gyroangle" + drive.navx.getAngle());
+	// System.out.println("left Encoder value: "
+	// + drive.leftFrontMaster.getSelectedSensorPosition(0) *
+	// RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	// System.out.println("Right Encoder value: "
+	// + drive.rightFrontMaster.getSelectedSensorPosition(0) *
+	// RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	// System.out.println("Left speed: " +
+	// drive.leftFrontMaster.getSelectedSensorVelocity(0));
+	// System.out.println("Right speed: " +
+	// drive.rightFrontMaster.getSelectedSensorVelocity(0));
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
-	 */
-	@Override
-	public void autonomousInit() {
-		drive.resetEncoders();
-		
-		autonomousCommand = new AutoDriveStraight();
-		//autonomousCommand = new AutoMotnMagic();
-		//autonomousCommand = chooser.getSelected();
-		autonomousCommand.start();
-		//m_autonomousCommand = m_chooser.getSelected();
+	SmartDashboard.putNumber("left Encoder value: ",
+		drive.leftFrontMaster.getSelectedSensorPosition(0) * RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	SmartDashboard.putNumber("Right Encoder value: ",
+		drive.rightFrontMaster.getSelectedSensorPosition(0) * RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	SmartDashboard.putNumber("Left speed: ", drive.leftFrontMaster.getSelectedSensorVelocity(0));
+	SmartDashboard.putNumber("Right speed: ", drive.rightFrontMaster.getSelectedSensorVelocity(0));
+	SmartDashboard.putNumber("gyroangle", drive.navx.getAngle());
+    }
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
+    @Override
+    public void teleopInit() {
+	drive.resetEncoders();
+	drive.navx.reset();
+	// This makes sure that the autonomous stops running when
+	// teleop starts running. If you want the autonomous to
+	// continue until interrupted by another command, remove
+	// this line or comment it out.
+	// if (m_autonomousCommand != null) {
+	// m_autonomousCommand.cancel();
+	// }
+    }
 
-		// schedule the autonomous command (example)
-		//if (m_autonomousCommand != null) {
-			//m_autonomousCommand.start();
-		//}
-	}
+    /**
+     * This function is called periodically during operator control.
+     */
+    @Override
+    public void teleopPeriodic() {
+	Scheduler.getInstance().run();
 
-	/**
-	 * This function is called periodically during autonomous.
-	 */
-	@Override
-	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
-		
-	       System.out.println("gyroangle" + drive.navx.getAngle());
-	        System.out.println("left Encoder value: " + drive.leftFrontMaster.getSelectedSensorPosition(0)*RobotMap.DriveMap.DISTANCE_PER_PULSE);
-	        System.out.println("Right Encoder value: " + drive.rightFrontMaster.getSelectedSensorPosition(0)*RobotMap.DriveMap.DISTANCE_PER_PULSE);
-	        System.out.println("Left speed: " + drive.leftFrontMaster.getSelectedSensorVelocity(0));
-	        System.out.println("Right speed: " + drive.rightFrontMaster.getSelectedSensorVelocity(0));
-		
-	    //SmartDashboard.putNumber("left Encoder value: ", drive.leftFrontMaster.getSelectedSensorPosition(0));
-		//SmartDashboard.putNumber("Right Encoder value: ", drive.rightFrontMaster.getSelectedSensorPosition(0));
-	}
+	// System.out.println("gyroangle" + drive.navx.getAngle());
 
-	@Override
-	public void teleopInit() {
-		drive.resetEncoders();
-		drive.navx.reset();
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		//if (m_autonomousCommand != null) {
-		//	m_autonomousCommand.cancel();
-		//}
-	}
+	// System.out.println("left Encoder value: "
+	// + drive.leftFrontMaster.getSelectedSensorPosition(0) *
+	// RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	// System.out.println("Right Encoder value: "
+	// + drive.rightFrontMaster.getSelectedSensorPosition(0) *
+	// RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	// System.out.println("Left speed: " +
+	// drive.leftFrontMaster.getSelectedSensorVelocity(0));
+	// System.out.println("Right speed: " +
+	// drive.rightFrontMaster.getSelectedSensorVelocity(0));
 
-	/**
-	 * This function is called periodically during operator control.
-	 */
-	@Override
-	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
-		
-        System.out.println("gyroangle" + drive.navx.getAngle());
-        
-        System.out.println("left Encoder value: " + drive.leftFrontMaster.getSelectedSensorPosition(0)*RobotMap.DriveMap.DISTANCE_PER_PULSE);
-        System.out.println("Right Encoder value: " + drive.rightFrontMaster.getSelectedSensorPosition(0)*RobotMap.DriveMap.DISTANCE_PER_PULSE);
-        System.out.println("Left speed: " + drive.leftFrontMaster.getSelectedSensorVelocity(0));
-        System.out.println("Right speed: " + drive.rightFrontMaster.getSelectedSensorVelocity(0));
-		//SmartDashboard.putNumber("left Encoder value: ", drive.leftFrontMaster.getSelectedSensorPosition(0));
-		//SmartDashboard.putNumber("Right Encoder value: ", drive.rightFrontMaster.getSelectedSensorPosition(0));
-	}
+	SmartDashboard.putNumber("left Encoder value: ",
+		drive.leftFrontMaster.getSelectedSensorPosition(0) * RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	SmartDashboard.putNumber("Right Encoder value: ",
+		drive.rightFrontMaster.getSelectedSensorPosition(0) * RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	SmartDashboard.putNumber("Left speed: ", drive.leftFrontMaster.getSelectedSensorVelocity(0));
+	SmartDashboard.putNumber("Right speed: ", drive.rightFrontMaster.getSelectedSensorVelocity(0));
+	SmartDashboard.putNumber("gyroangle", drive.navx.getAngle());
+    }
 
-	/**
-	 * This function is called periodically during test mode.
-	 */
-	@Override
-	public void testPeriodic() {
-	}
+    /**
+     * This function is called periodically during test mode.
+     */
+    @Override
+    public void testPeriodic() {
+    }
 }

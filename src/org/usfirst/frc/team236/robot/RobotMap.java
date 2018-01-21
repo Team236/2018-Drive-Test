@@ -14,43 +14,54 @@ package org.usfirst.frc.team236.robot;
  * floating around.
  */
 public class RobotMap {
-	
-	public static class DriveMap {
-		public static final int ID_LEFT_FRONT = 1;
-		public static final int ID_RIGHT_FRONT = 2;
-		public static final int ID_LEFT_REAR = 3;
-		public static final int ID_RIGHT_REAR = 4;
-		
-		
-		public static final double DIAMETER = 3.92;
-		public static final double CIRCUMFERENCE = DIAMETER * Math.PI;
-		public static final double PULSE_PER_ROTATION = 512;
-		public static final double DISTANCE_PER_PULSE = CIRCUMFERENCE / PULSE_PER_ROTATION;
-		
-	}
-	
-	public static class JoystickMap {
-		public static final int LEFT_PORT = 0;
-		public static final int RIGHT_PORT = 1;
-	}
-	
-     public static class SetSolMap {
-    	 public static final int SOL_FWD = 6;
-         public static final int SOL_REV = 7;    			 
-    	 
-     }
-	public static class AutoMap{
-		public static final double STRAIGHT_DISTANCE = 24;
-		
-	}
-	
-	// For example to map the left and right motors, you could define the
-	// following variables to use with your drivetrain subsystem.
-	// public static int leftMotor = 1;
-	// public static int rightMotor = 2;
 
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
+    public static class DriveMap {
+	public static final int ID_LEFT_FRONT = 8;
+	public static final int ID_RIGHT_FRONT = 7;
+	public static final int ID_LEFT_REAR = 5;
+	public static final int ID_RIGHT_REAR = 6;
+
+	public static final double DIAMETER = 3.92;
+	public static final double CIRCUMFERENCE = DIAMETER * Math.PI;
+	public static final double PULSE_PER_ROTATION = 512;
+	public static final double DISTANCE_PER_PULSE = CIRCUMFERENCE / PULSE_PER_ROTATION;
+
+	public static final double POS_K_P = 3;
+	public static final double POS_K_I = .001;
+	public static final double POS_K_D = 0;
+
+	public static final double M_MAGIC_K_P = .1;
+	public static final double M_MAGIC_K_I = 0;
+	public static final double M_MAGIC_K_D = 0;
+	public static final double M_MAGIC_K_F = 4.65;
+
+	public static final int M_MAGIC_CV = 200;
+	public static final int M_MAGIC_ACCL = 200;
+    }
+
+    public static class JoystickMap {
+	public static final int LEFT_PORT = 0;
+	public static final int RIGHT_PORT = 1;
+    }
+
+    public static class SetSolMap {
+	public static final int SOL_FWD = 6;
+	public static final int SOL_REV = 7;
+
+    }
+
+    public static class AutoMap {
+	public static final double STRAIGHT_DISTANCE = 24;
+
+    }
+
+    // For example to map the left and right motors, you could define the
+    // following variables to use with your drivetrain subsystem.
+    // public static int leftMotor = 1;
+    // public static int rightMotor = 2;
+
+    // If you are using multiple modules, make sure to define both the port
+    // number and the module. For example you with a rangefinder:
+    // public static int rangefinderPort = 1;
+    // public static int rangefinderModule = 1;
 }
