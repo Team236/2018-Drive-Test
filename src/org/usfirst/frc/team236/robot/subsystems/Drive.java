@@ -9,11 +9,13 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import lib.pid.PIDOutput;
+import lib.pid.PIDSource;
 
 /**
  *
  */
-public class Drive extends Subsystem {
+public class Drive extends Subsystem implements PIDSource, PIDOutput {
 
     public TalonSRX leftFrontMaster, leftRearSlave;
     public TalonSRX rightFrontMaster, rightRearSlave;
@@ -35,7 +37,7 @@ public class Drive extends Subsystem {
 	// Set "true" if needed to make the encoder reading positive when
 	// TalonSRX is blinking green
 	leftFrontMaster.setSensorPhase(true);
-	rightFrontMaster.setSensorPhase(true);
+	rightFrontMaster.setSensorPhase(false);
     }
 
     public void setLeftSpeed(double speed) {
@@ -43,7 +45,17 @@ public class Drive extends Subsystem {
     }
 
     public void setRightSpeed(double speed) {
-	rightFrontMaster.set(ControlMode.PercentOutput, -speed);
+	rightFrontMaster.set(ControlMode.PercentOutput, speed);
+    }
+
+    public void pidSet(double speed) {
+	setLeftSpeed(-speed);
+	setRightSpeed(speed);
+    }
+
+    public void stop() {
+	leftFrontMaster.set(ControlMode.PercentOutput, 0);
+	rightFrontMaster.set(ControlMode.PercentOutput, 0);
     }
 
     public void setLeftDistance(double distance) {
@@ -51,11 +63,11 @@ public class Drive extends Subsystem {
     }
 
     public void setRightDistance(double distance) {
-	rightFrontMaster.set(ControlMode.Position, -distance);
+	rightFrontMaster.set(ControlMode.Position, distance);
     }
 
     public void setRightDistMotion(double distance) {
-	rightFrontMaster.set(ControlMode.MotionMagic, -distance);
+	rightFrontMaster.set(ControlMode.MotionMagic, distance);
     }
 
     public void setLeftDistMotion(double distance) {
@@ -116,6 +128,14 @@ public class Drive extends Subsystem {
 	rightFrontMaster.setSelectedSensorPosition(0, 0, 0);
     }
 
+    public int getLeftEncoder() {
+	return leftFrontMaster.getSelectedSensorPosition(0);
+    }
+
+    public int getRightEncoder() {
+	return rightFrontMaster.getSelectedSensorPosition(0);
+    }
+
     public int getLeftDistance() {
 	return leftFrontMaster.getSensorCollection().getQuadraturePosition();
     }
@@ -126,6 +146,14 @@ public class Drive extends Subsystem {
 
     public double getLeftSpeed() {
 	return leftFrontMaster.getSelectedSensorVelocity(0);
+    }
+
+    public double getRightSpeed() {
+	return rightFrontMaster.getSelectedSensorVelocity(0);
+    }
+
+    public double pidGet() {
+	return navx.getAngle();
     }
     // public double getRightSpeed() {
     // return rightFrontMaster.getSelectedSensorVelocity(0);
@@ -139,8 +167,8 @@ public class Drive extends Subsystem {
 
     public void initDefaultCommand() {
 	setDefaultCommand(new DriveWithJoysticks());
-
 	// Set the default command for a subsystem here.
 	// setDefaultCommand(new MySpecialCommand());
     }
+
 }

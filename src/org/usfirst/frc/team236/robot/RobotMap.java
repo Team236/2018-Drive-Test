@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team236.robot;
 
+import lib.pid.PIDParameters;
+
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
  * to a variable name. This provides flexibility changing wiring, makes checking
@@ -21,6 +23,11 @@ public class RobotMap {
 	public static final int ID_LEFT_REAR = 5;
 	public static final int ID_RIGHT_REAR = 6;
 
+	// public static final int ID_LEFT_FRONT = 1;
+	// public static final int ID_RIGHT_FRONT = 2;
+	// public static final int ID_LEFT_REAR = 3;
+	// public static final int ID_RIGHT_REAR = 4;
+
 	public static final double DIAMETER = 3.92;
 	public static final double CIRCUMFERENCE = DIAMETER * Math.PI;
 	public static final double PULSE_PER_ROTATION = 512;
@@ -30,13 +37,13 @@ public class RobotMap {
 	public static final double POS_K_I = .001;
 	public static final double POS_K_D = 0;
 
-	public static final double M_MAGIC_K_P = .1;
-	public static final double M_MAGIC_K_I = 0;
-	public static final double M_MAGIC_K_D = 0;
-	public static final double M_MAGIC_K_F = 4.65;
+	// public static final double M_MAGIC_K_P = .1;
+	// public static final double M_MAGIC_K_I = 0;
+	// public static final double M_MAGIC_K_D = 0;
+	// public static final double M_MAGIC_K_F = 4.65;
 
-	public static final int M_MAGIC_CV = 200;
-	public static final int M_MAGIC_ACCL = 200;
+	public static final int M_MAGIC_CV = 1280;
+	public static final int M_MAGIC_ACCL = 2560;
     }
 
     public static class JoystickMap {
@@ -51,17 +58,19 @@ public class RobotMap {
     }
 
     public static class AutoMap {
-	public static final double STRAIGHT_DISTANCE = 24;
+	public static final double STRAIGHT_DISTANCE1 = 60;
+	public static final double STRAIGHT_DISTANCE2 = 60;
+
+	public static final double TURN_DEGREES = 90;
+	public static final double TURN_DEGREES2 = -90;
+	public static final double TURN_MARGIN = 5.0;
+	public static final double MTN_MAG_END_MARGIN = 6;
+
+	// public static final PIDParameters TURN_PARAMS = new
+	// PIDParameters(0.010, 0.005, -0.004, 1 / 100.0);
+	// For 90 degree turn P = 0.0147, D = -0.001
+	// For Motion Magic F = 0.8, P = 0.09
+	public static final PIDParameters TURN_PARAMS = new PIDParameters(0.0147, 0.00, -0.001, 1 / 100.0);
 
     }
-
-    // For example to map the left and right motors, you could define the
-    // following variables to use with your drivetrain subsystem.
-    // public static int leftMotor = 1;
-    // public static int rightMotor = 2;
-
-    // If you are using multiple modules, make sure to define both the port
-    // number and the module. For example you with a rangefinder:
-    // public static int rangefinderPort = 1;
-    // public static int rangefinderModule = 1;
 }

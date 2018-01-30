@@ -23,8 +23,8 @@ public class AutoDriveStraight extends Command {
 	Robot.drive.setkP(RobotMap.DriveMap.POS_K_P);
 	Robot.drive.setkI(RobotMap.DriveMap.POS_K_I);
 	Robot.drive.setkD(RobotMap.DriveMap.POS_K_D);
-	Robot.drive.setRightDistance(RobotMap.AutoMap.STRAIGHT_DISTANCE / RobotMap.DriveMap.DISTANCE_PER_PULSE);
-	Robot.drive.setLeftDistance(RobotMap.AutoMap.STRAIGHT_DISTANCE / RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	Robot.drive.setRightDistance(RobotMap.AutoMap.STRAIGHT_DISTANCE1 / RobotMap.DriveMap.DISTANCE_PER_PULSE);
+	Robot.drive.setLeftDistance(RobotMap.AutoMap.STRAIGHT_DISTANCE1 / RobotMap.DriveMap.DISTANCE_PER_PULSE);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -33,15 +33,20 @@ public class AutoDriveStraight extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+	// return ((Robot.drive.getLeftSpeed() == 0) &&
+	// ((Robot.drive.getRightSpeed() == 0);
 	return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+	Robot.drive.stop();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+	end();
+
     }
 }

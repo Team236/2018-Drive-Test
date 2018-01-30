@@ -7,8 +7,7 @@
 
 package org.usfirst.frc.team236.robot;
 
-import org.usfirst.frc.team236.robot.commands.AutoDriveStraight;
-import org.usfirst.frc.team236.robot.commands.AutoMotnMagic;
+import org.usfirst.frc.team236.robot.commands.AutoDriveTurnDrive;
 import org.usfirst.frc.team236.robot.subsystems.Drive;
 import org.usfirst.frc.team236.robot.subsystems.SolenoidTest;
 
@@ -43,10 +42,11 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
 	oi = new OI();
-	chooser.addDefault("Default Auto", new AutoMotnMagic());
-	chooser.addObject("Auto Selection", new AutoDriveStraight());
-	// chooser.addObject("My Auto", new MyAutoCommand());
-	SmartDashboard.putData("Auto mode", chooser);
+	// chooser.addDefault("Default Auto", new AutoMotnMagic());
+	// chooser.addObject("Auto PID Straight", new AutoDriveStraight());
+	// chooser.addDefault("Default Auto", new AutoMotnMagic());
+	// chooser.addObject("Auto Selection", new AutoDriveStraight());
+	// SmartDashboard.putData("Auto mode is ", chooser.getSelected());
     }
 
     /**
@@ -81,23 +81,20 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
 	drive.resetEncoders();
+	drive.navx.reset();
 
 	// autonomousCommand = new AutoDriveStraight();
-	// autonomousCommand = new AutoMotnMagic();
-	autonomousCommand = chooser.getSelected();
-	autonomousCommand.start();
-	// m_autonomousCommand = m_chooser.getSelected();
-
-	/*
-	 * String autoSelected = SmartDashboard.getString("Auto Selector",
-	 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-	 * = new MyAutoCommand(); break; case "Default Auto": default:
-	 * autonomousCommand = new ExampleCommand(); break; }
-	 */
+	// autonomousCommand = new
+	// AutoMotnMagic(RobotMap.AutoMap.STRAIGHT_DISTANCE1);
+	// autonomousCommand = new Turn(RobotMap.AutoMap.TURN_DEGREES,
+	// RobotMap.AutoMap.TURN_MARGIN);
+	// autonomousCommand = chooser.getSelected();
+	// autonomousCommand = new AutoDriveTurn();
+	autonomousCommand = new AutoDriveTurnDrive();
 
 	// schedule the autonomous command (example)
 	// if (m_autonomousCommand != null) {
-	// m_autonomousCommand.start();
+	autonomousCommand.start();
 	// }
     }
 
@@ -107,18 +104,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
 	Scheduler.getInstance().run();
-
-	// System.out.println("gyroangle" + drive.navx.getAngle());
-	// System.out.println("left Encoder value: "
-	// + drive.leftFrontMaster.getSelectedSensorPosition(0) *
-	// RobotMap.DriveMap.DISTANCE_PER_PULSE);
-	// System.out.println("Right Encoder value: "
-	// + drive.rightFrontMaster.getSelectedSensorPosition(0) *
-	// RobotMap.DriveMap.DISTANCE_PER_PULSE);
-	// System.out.println("Left speed: " +
-	// drive.leftFrontMaster.getSelectedSensorVelocity(0));
-	// System.out.println("Right speed: " +
-	// drive.rightFrontMaster.getSelectedSensorVelocity(0));
 
 	SmartDashboard.putNumber("left Encoder value: ",
 		drive.leftFrontMaster.getSelectedSensorPosition(0) * RobotMap.DriveMap.DISTANCE_PER_PULSE);
@@ -148,19 +133,6 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
 	Scheduler.getInstance().run();
-
-	// System.out.println("gyroangle" + drive.navx.getAngle());
-
-	// System.out.println("left Encoder value: "
-	// + drive.leftFrontMaster.getSelectedSensorPosition(0) *
-	// RobotMap.DriveMap.DISTANCE_PER_PULSE);
-	// System.out.println("Right Encoder value: "
-	// + drive.rightFrontMaster.getSelectedSensorPosition(0) *
-	// RobotMap.DriveMap.DISTANCE_PER_PULSE);
-	// System.out.println("Left speed: " +
-	// drive.leftFrontMaster.getSelectedSensorVelocity(0));
-	// System.out.println("Right speed: " +
-	// drive.rightFrontMaster.getSelectedSensorVelocity(0));
 
 	SmartDashboard.putNumber("left Encoder value: ",
 		drive.leftFrontMaster.getSelectedSensorPosition(0) * RobotMap.DriveMap.DISTANCE_PER_PULSE);
