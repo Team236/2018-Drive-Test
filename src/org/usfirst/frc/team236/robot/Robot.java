@@ -8,6 +8,7 @@
 package org.usfirst.frc.team236.robot;
 
 import org.usfirst.frc.team236.robot.commands.AutoDriveTurnDrive;
+import org.usfirst.frc.team236.robot.commands.AutoMotnMagic;
 import org.usfirst.frc.team236.robot.subsystems.Drive;
 import org.usfirst.frc.team236.robot.subsystems.SolenoidTest;
 
@@ -27,10 +28,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
     // public static final ExampleSubsystem kExampleSubsystem
     // = new ExampleSubsystem();
-    public static OI oi;
 
     Command autonomousCommand;
-    SendableChooser<Command> chooser = new SendableChooser<>();
+    SendableChooser<Command> chooser;
+    // SendableChooser<Command> chooser = new SendableChooser<>();
+    public static OI oi;
 
     public static Drive drive = new Drive();
     public static SolenoidTest solenoidTest = new SolenoidTest();
@@ -41,12 +43,18 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+
 	oi = new OI();
-	// chooser.addDefault("Default Auto", new AutoMotnMagic());
-	// chooser.addObject("Auto PID Straight", new AutoDriveStraight());
+	chooser = new SendableChooser<>();
+	chooser.addDefault("Auto Motn Magic Drive Strait ", new AutoMotnMagic(12));
+	chooser.addObject("Auto Drive Turn Drive ", new AutoDriveTurnDrive());
+	// SmartDashboard.putData("Auto mode chooser:", chooser);
 	// chooser.addDefault("Default Auto", new AutoMotnMagic());
 	// chooser.addObject("Auto Selection", new AutoDriveStraight());
-	// SmartDashboard.putData("Auto mode is ", chooser.getSelected());
+
+	SmartDashboard.putNumber("P for turn: ", 0);
+	SmartDashboard.putNumber("I for turn: ", 0);
+	SmartDashboard.putNumber("D for turn: ", 0);
     }
 
     /**
@@ -83,17 +91,17 @@ public class Robot extends TimedRobot {
 	drive.resetEncoders();
 	drive.navx.reset();
 
-	// autonomousCommand = new AutoDriveStraight();
+	autonomousCommand = chooser.getSelected();
+	// autonomousCommand = new AutoDriveStraight(12);
 	// autonomousCommand = new
 	// AutoMotnMagic(RobotMap.AutoMap.STRAIGHT_DISTANCE1);
 	// autonomousCommand = new Turn(RobotMap.AutoMap.TURN_DEGREES,
 	// RobotMap.AutoMap.TURN_MARGIN);
-	// autonomousCommand = chooser.getSelected();
 	// autonomousCommand = new AutoDriveTurn();
-	autonomousCommand = new AutoDriveTurnDrive();
+	// autonomousCommand = new AutoDriveTurnDrive();
 
 	// schedule the autonomous command (example)
-	// if (m_autonomousCommand != null) {
+	// if (autonomousCommand != null) {
 	autonomousCommand.start();
 	// }
     }
