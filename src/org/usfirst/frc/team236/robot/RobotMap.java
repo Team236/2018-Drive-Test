@@ -71,9 +71,9 @@ public class RobotMap {
 	// PIDParameters(0.010, 0.005, -0.004, 1 / 100.0);
 	// For 90 degree turn P = 0.0147, D = -0.001
 	// For Motion Magic F = 0.8, P = 0.09
-	public static final double P_TURN = SmartDashboard.getNumber("P for turn is: ", 0);
-	public static final double I_TURN = SmartDashboard.getNumber("I for turn is: ", 0);
-	public static final double D_TURN = SmartDashboard.getNumber("D for turn is: ", 0);
+	public static final double P_TURN = SmartDashboard.getNumber("P", 0);
+	public static final double I_TURN = SmartDashboard.getNumber("I", 0);
+	public static final double D_TURN = SmartDashboard.getNumber("D", 0);
 	public static final PIDParameters TURN_PARAMS = new PIDParameters(P_TURN, I_TURN, D_TURN, 1 / 100.0);
 	// public static final PIDParameters TURN_PARAMS = new
 	// PIDParameters(0.0147, 0.00, -0.001, 1 / 100.0);

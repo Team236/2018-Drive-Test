@@ -29,7 +29,7 @@ public class Turn extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-	SmartDashboard.putNumber("turn is initializing", 0);
+	// SmartDashboard.putNumber("turn is initializing", 0);
 	pid.setSetpoint(degrees);
 	Robot.drive.navx.reset();
 	pid.enable();
@@ -41,9 +41,9 @@ public class Turn extends Command {
     protected void execute() {
 	angleError = pid.getError();
 	SmartDashboard.putNumber("ANGLE: ", Robot.drive.navx.getAngle());
-	SmartDashboard.putNumber("angle error = ", angleError);
-	SmartDashboard.putNumber("angle Margin", margin);
-	SmartDashboard.putNumber("navxrate = ", Robot.drive.navx.getRate());
+	// SmartDashboard.putNumber("angle error = ", angleError);
+	// SmartDashboard.putNumber("angle Margin", margin);
+	// SmartDashboard.putNumber("navxrate = ", Robot.drive.navx.getRate());
 
     }
 

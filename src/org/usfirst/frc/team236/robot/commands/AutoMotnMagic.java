@@ -47,8 +47,8 @@ public class AutoMotnMagic extends Command {
 	double currentDistance = Robot.drive.getRightDistance() * RobotMap.DriveMap.DISTANCE_PER_PULSE;
 	error = Math.abs(distance - currentDistance);
 	SmartDashboard.putNumber("currentdistance ", currentDistance);
-	SmartDashboard.putNumber("distance ", distance);
-	SmartDashboard.putNumber("MM Error", error);
+	// SmartDashboard.putNumber("distance ", distance);
+	// SmartDashboard.putNumber("MM Error", error);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -57,8 +57,8 @@ public class AutoMotnMagic extends Command {
 	boolean inSpeedMargin = Robot.drive.getRightSpeed() < 1.0;
 	boolean inDistMargin = error < RobotMap.AutoMap.MTN_MAG_END_MARGIN;
 
-	SmartDashboard.putNumber("Speed", Robot.drive.getRightSpeed());
-	SmartDashboard.putNumber("MM error = ", error);
+	// SmartDashboard.putNumber("Speed", Robot.drive.getRightSpeed());
+	// SmartDashboard.putNumber("MM error = ", error);
 	return (inSpeedMargin) && (inDistMargin);
     }
 
